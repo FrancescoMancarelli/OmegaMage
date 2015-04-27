@@ -7,6 +7,7 @@ public class FireGroundSpell : PT_MonoBehaviour {
 	// ^ This allows the duration to range from 3.5 to 4.5
 	public float fadeTime = 1f; // Length of time to fade
 	public float timeStart; // Birth time of this GameObject
+	public float damagePerSecond = 10;
 	// Use this for initialization
 	void Start () {
 		timeStart = Time.time;
@@ -41,5 +42,14 @@ public class FireGroundSpell : PT_MonoBehaviour {
 		}
 		Utils.tr("Flame hit",go.name);
 	}
-	//TODO: Actually damage the other object
+
+	void OnTriggerStay(Collider other) {
+		// Actually damage the other
+		// Get a reference to the EnemyBug script component of the other
+		EnemyBug recipient = other.GetComponent<EnemyBug>();
+		// If there is an EnemyBug component, dmage it with fire
+		if (recipient != null) {
+			recipient.Damage(damagePerSecond, ElementType.fire, true);
+		}
+	}
 }
